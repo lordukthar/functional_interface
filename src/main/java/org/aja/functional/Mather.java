@@ -9,8 +9,10 @@ public class Mather {
     Function<Integer, String> acceptiontFunctionReturnFunction(Function<String/*input*/, String /*output*/> lambda, String name) {
         String result = lambda.apply(name);//This will do the operation toUpper or toLower
 
-        return count ->
-                result.repeat(count);//This will repeat the word the nummber of times we do a call to apply (2 and 4)
+        Function<Integer, String> repeat =  count -> {
+            return result.repeat(count);//This will repeat the word the nummber of times we do a call to apply (2 and 4)
+        };
+        return repeat;
 
         //or method reference
         //return result::repeat;//This will repeat the word the nummber of times we do a call to apply (2 and 4)
@@ -26,7 +28,8 @@ public class Mather {
     // Old fashioned, one method per operation
     Function<Integer, String> toUpper(String name) {
         String toUpper = name.toUpperCase();
-        return toUpper::repeat;
+        Function<Integer, String> repeat = toUpper::repeat;
+        return repeat;
     }
 
     // Old fashioned, one method per operation
