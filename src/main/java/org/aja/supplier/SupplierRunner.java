@@ -1,27 +1,52 @@
 package org.aja.supplier;
 
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import io.dropwizard.cli.Cli;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SupplierRunner {
 
 
 
 
-    public static void main(String...args) {
+    public static void main(String...args) throws Exception {
         SupplierRunner sr = new SupplierRunner();
         sr.callPool();
     }
 
-    private void callPool() {
+    private void callPool() throws Exception {
+
+
+
+        ObjectPool<Client> pool = new GenericObjectPool<Client>(new ClientPoolObjectFactory());
+
+/*
 
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-        config.setMaxTotal(10);
+        config.setMaxTotal(100);
 
-        UserCachePool ucp = new UserCachePool();
+        ClientCachePool ucp = new ClientCachePool();*/
 
-        for (int i = 0 ; i < 25; i++) {
-            System.out.println(ucp.getUser());
+        List<Client> clients = new ArrayList<>();
+
+        for (int i = 0 ; i < 5; i++) {
+            clients.add(pool.borrowObject());
         }
+
+       for (int i = 0 ; i < 5; i++) {
+            System.out.println(clients.get(i));
+        }
+
+
+        System.out.println("DHDHDH");
+        for (int i = 0 ; i < 5; i++) {
+            pool.returnObject(clients.get(i));
+        }
+
+       System.exit(1);
     }
 }
