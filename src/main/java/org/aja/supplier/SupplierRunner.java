@@ -22,20 +22,21 @@ public class SupplierRunner {
 
 
 
-        ObjectPool<Client> pool = new GenericObjectPool<Client>(new ClientPoolObjectFactory());
-
-/*
-
+        ClientCachePool<Client> pool = new ClientCachePool<Client>();
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-        config.setMaxTotal(100);
+        config.setMaxTotal(10);
 
-        ClientCachePool ucp = new ClientCachePool();*/
 
         List<Client> clients = new ArrayList<>();
+       // ((GenericObjectPool<Client>) pool).setConfig(config);
 
         for (int i = 0 ; i < 5; i++) {
-            clients.add(pool.borrowObject());
+            clients.add(pool.getClient());
         }
+
+
+       // final Client client = pool.getClient();
+        //pool.returnObject(client);
 
        for (int i = 0 ; i < 5; i++) {
             System.out.println(clients.get(i));
@@ -47,6 +48,12 @@ public class SupplierRunner {
             pool.returnObject(clients.get(i));
         }
 
-       System.exit(1);
+
+        final Client client = pool.getClient();
+        System.out.println(client);
+        pool.returnObject(client);
+
+
+        System.exit(1);
     }
 }

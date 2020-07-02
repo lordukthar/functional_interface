@@ -22,7 +22,7 @@ public class ClientPoolObjectFactory extends BasePooledObjectFactory<Client> {
     @Override
     public void passivateObject(PooledObject<Client> pooledObject) {
         System.out.println("deallocate");
-       pooledObject.deallocate();
+      // pooledObject.deallocate();
     }
 
 }

@@ -16,9 +16,17 @@ public class ClientCachePool<T> {
     public Client getClient() {
         Client t = null;
         try {
+            System.out.println("Borrow");
             t =  pool.borrowObject();
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
+        } finally {
+            try {
+               // pool.returnObject(t);
+                //System.out.println("Returning object: " + t);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return t;
     }
@@ -26,6 +34,7 @@ public class ClientCachePool<T> {
 
     public void returnObject(Client c) {
         try {
+            System.out.println("Returning");
             pool.returnObject(c);
 
         } catch (Exception e) {
